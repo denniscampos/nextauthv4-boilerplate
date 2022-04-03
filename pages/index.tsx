@@ -5,9 +5,9 @@ import styles from "../styles/Home.module.css";
 import { signOut, useSession } from "next-auth/react";
 
 const Home: NextPage = () => {
-  const { data: session, status } = useSession();
+  // you have access to status as well.
+  const { data: session } = useSession();
 
-  console.log(session);
   return (
     <div className={styles.container}>
       <Head>
