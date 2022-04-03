@@ -14,7 +14,7 @@ https://console.cloud.google.com/apis/credentials
 Install dependencies
 `npm install` or `yarn`
 
-Create `.env.local` file
+Create `.env.local` file or look at `.env.local.sample`
 
 Add the following:
 | Env Name | Variable |

@@ -1,36 +1,38 @@
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, getProviders } from "next-auth/react";
+import { GetServerSideProps } from "next";
 
-export default function Login() {
-  const { data: session } = useSession();
+interface ProviderProps {
+  providers: ProviderProps[];
+  id: string;
+  name: string;
+  signInUrl: string;
+  type: string;
+}
 
-  console.log(session);
-
+export default function Login({ providers }: ProviderProps) {
   const handleSignin = (e: React.SyntheticEvent) => {
     e.preventDefault();
     signIn();
   };
-  const handleSignout = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    signOut();
-  };
-
-  if (session) {
-    return (
-      <div>
-        {session ? (
-          <>
-            <h1>Welcome {session?.user?.email} </h1>
-            <button onClick={handleSignout}>Signout</button>
-          </>
-        ) : null}
-      </div>
-    );
-  }
 
   return (
     <div>
-      <h3>Please Sign In</h3>
-      <button onClick={handleSignin}>Sign in</button>
+      <h3>Welcome</h3>
+      {Object.values(providers).map((provider) => (
+        <div key={provider.name}>
+          <button onClick={handleSignin}>Sign in with {provider.name}</button>
+        </div>
+      ))}
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const providers = await getProviders();
+
+  return {
+    props: {
+      providers,
+    },
+  };
+};
