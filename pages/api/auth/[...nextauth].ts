@@ -63,9 +63,6 @@ export default NextAuth({
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async signIn() {
-      return "/";
-    },
     async session({ session, token }: any) {
       // depending on provider you can add additional information to the session. ie. images, email, etc.
       session.user.name = token.user.name;

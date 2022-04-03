@@ -10,17 +10,14 @@ interface ProviderProps {
 }
 
 export default function Login({ providers }: ProviderProps) {
-  const handleSignin = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    signIn();
-  };
-
   return (
     <div>
       <h3>Welcome</h3>
       {Object.values(providers).map((provider) => (
         <div key={provider.name}>
-          <button onClick={handleSignin}>Sign in with {provider.name}</button>
+          <button onClick={() => signIn("google", { callbackUrl: "/" })}>
+            Sign in with {provider.name}
+          </button>
         </div>
       ))}
     </div>
