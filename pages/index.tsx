@@ -21,16 +21,14 @@ const Home: NextPage = () => {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        {session
-          ? [
-              <>
-                <h2>Welcome {session?.user?.name}</h2>,
-                <button onClick={() => signOut({ callbackUrl: "/" })}>
-                  Logout
-                </button>
-              </>,
-            ]
-          : null}
+        {session ? (
+          <div>
+            <h2>Welcome {session?.user?.name}</h2>
+            <button onClick={() => signOut({ callbackUrl: "/" })}>
+              Logout
+            </button>
+          </div>
+        ) : null}
 
         <p className={styles.description}>
           Get started by editing{" "}
