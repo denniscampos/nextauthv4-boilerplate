@@ -1,8 +1,14 @@
 import NextAuth from "next-auth";
+import { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 
 // Reference
 // Refresh token authorization: https://next-auth.js.org/tutorials/refresh-token-rotation
+
+type RefreshTokenType = {
+  token: string;
+  refreshToken: string;
+}
 
 const GOOGLE_AUTHORIZATION_URL =
   "https://accounts.google.com/o/oauth2/auth" +
@@ -12,7 +18,7 @@ const GOOGLE_AUTHORIZATION_URL =
     response_type: "code",
   });
 
-async function refreshAccessToken(token: any) {
+async function refreshAccessToken(token: RefreshTokenType) {
   try {
     const url =
       "https://oauth2.googleapis.com/token?" +
@@ -63,10 +69,11 @@ export default NextAuth({
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async session({ session, token }: any) {
+    async session({ session, token }) {
       // depending on provider you can add additional information to the session. ie. images, email, etc.
       session.user.name = token.user.name;
       session.user.email = token.user.email;
+
       return session;
     },
     async jwt({ token, user, account }: any) {
